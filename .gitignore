@@ -1,0 +1,5 @@
+*.md~
+*.py~
+__pycache__/
+build/
+h5axeconfig.egg-info/
