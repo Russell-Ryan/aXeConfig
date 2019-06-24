@@ -46,12 +46,12 @@ class Dispersion(Base):
         return s
 
 
-    def wavelength(self,s,x0,y0):
-        ''' compute the wavelength from the arclength '''
-        assert (x0.shape==y0.shape),"Invalid (x,y) pairs."
-
-        
-        return l
+    #def wavelength(self,s,x0,y0):
+    #    ''' compute the wavelength from the arclength '''
+    #    assert (x0.shape==y0.shape),"Invalid (x,y) pairs."
+    #
+    #    
+    #    return l
 
 
     def __call__(self,x0,y0):
