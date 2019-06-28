@@ -14,7 +14,7 @@ To facilitate cameras with multiple detectors (such as WFC3/UVIS with its two CC
 * [WFC3-UVIS](http://www.stsci.edu/~rryan/pyLINEAR/calibrations/WFC3-UVIS/)
 
 
-## Example usage
+## Example Usage
 
 ```
 
