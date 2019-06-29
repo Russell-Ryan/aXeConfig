@@ -15,9 +15,6 @@ class Detector(object):
         self.detector=h5.name[1:]
 
         # get a few properties 
-        #self.sciext=self._fitsExtension(h5Attr(h5,'science_ext'))
-        #self.uncext=self._fitsExtension(h5Attr(h5,'errors_ext'))
-        #self.dqaext=self._fitsExtension(h5Attr(h5,'dq_ext'))
         self.extver=h5Attr(h5,'extver')
         self.sciext=h5Attr(h5,'science_ext')
         self.uncext=h5Attr(h5,'errors_ext')
@@ -46,7 +43,10 @@ class Detector(object):
                 self.beams[beamname]=Beam(h5g[beamname],self.clip)
         else:
             if not isinstance(beams,(list,tuple)):
-                beams=[beams]
+                if beams =='':
+                    return
+                else:
+                    beams=[beams]
             for beamname in beams:
                 try:
                     self.beams[beamname]=Beam(h5g[beamname],self.clip)

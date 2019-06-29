@@ -1,5 +1,28 @@
 import h5py
 import numpy as np
+import os
+
+
+def resolveFile(filename,path=None):
+    ''' get a filename to a config file based the hardcoded path '''
+    if path is None:
+        path,theFile=os.path.split(__file__)
+        path=os.path.join(path,'..','data')
+
+    fullfile=os.path.join(path,filename)
+    return fullfile
+
+
+
+def detectorData(filename,*args):
+    fullfile=resolveFile(filename)
+    
+    det={}
+    with h5py.File(fullfile,'r') as h5:
+        for detname,h5d in h5.items():
+            det[detname]=tuple(h5Attr(h5d,arg) for arg in args)
+        #ext=[h5Attr(h5g,arg) for arg in args for d,h5g in h5.items()]
+    return det
 
 
 def h5Attr(h5,key):

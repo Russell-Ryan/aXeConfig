@@ -3,7 +3,7 @@ import h5py
 from collections import OrderedDict
 
 
-from ..utils import h5Attr
+from ..utils import h5Attr,resolveFile
 from .detector import Detector
 
 class SIAF(object):
@@ -11,12 +11,13 @@ class SIAF(object):
         self.siaffile=siaffile
         
         # this is hard-coded w.r.t. h5axeconfig
-        if path is None:
-            path,FILE=os.path.split(__file__)
-            path=os.path.join(path,'..','..','data')
-            
-        fullfile=os.path.join(path,siaffile)
-
+        #if path is None:
+        #    path,FILE=os.path.split(__file__)
+        #    path=os.path.join(path,'..','..','data')
+        #    
+        #fullfile=os.path.join(path,siaffile)
+        fullfile=resolveFile(siaffile,path=path)
+        
         self.detectors=OrderedDict()
 
         with h5py.File(fullfile,'r') as h5:
