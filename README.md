@@ -8,11 +8,14 @@ python setup.py install
 
 ## Calibration Files
 
-To facilitate cameras with multiple detectors (such as WFC3/UVIS with its two CCDs), I felt it necessary to extend the ascii-formatted calibration files to a more advanced format.  I choose the [hdf5](https://www.hdfgroup.org/solutions/hdf5/) format, and have provided a few of the common detectors that I have worked with.  Given the file size, I provide these on a personal webpage.  **Therefore, one requires the h5py library.**
+To facilitate cameras with multiple detectors (such as WFC3/UVIS with its two CCDs), I felt it necessary to extend the ascii-formatted calibration files to a more advanced format.  I choose the [hdf5](https://www.hdfgroup.org/solutions/hdf5/) format, and have provided a few of the common detectors that I have worked with.  Given the file size, I provide these on a [personal webpage](http://www.stsci.edu/~rryan/pyLINEAR/):
 
 * [WFC3-IR](http://www.stsci.edu/~rryan/pyLINEAR/calibrations/WFC3-IR/)
 * [WFC3-UVIS](http://www.stsci.edu/~rryan/pyLINEAR/calibrations/WFC3-UVIS/)
 
+
+
+**Therefore, this package requires the h5py library.**
 
 ## Example Usage
 
