@@ -3,52 +3,64 @@ import numpy as np
 
 from ..utils import h5Attr
 
+
+
 class FlatField(object):
-    def __init__(self,h5file,detector):
-        with h5py.File(h5file,'r') as h5:
-            if detector in h5:
-                d=h5[detector]
-                self.h5file=h5file
-                self.detector=detector
-                self.flattype=h5Attr(d,'type')
+    def __init__(self,h5file):
+        self.h5file=h5file
+        self.detectors={}
+        
+        if self.h5file is None:
+            self.func=self.unity
+        else:
+            self.func=self.polynomial
+            try:
+                with h5py.File(self.h5file,'r') as h5:
+                    for detname in h5:
+                        group=h5[detname]
+                        self.order=h5Attr(group,'order')
+                        self.wmin=h5Attr(group,'wmin')
+                        self.wmax=h5Attr(group,'wmax')
+                        
+                        data=[group[str(i)][:] for i in range(self.order+1)]
+                        self.detectors[detname]=np.array(data)
+            except:
+                print("unable to load HDF5 flat field {}".format(self.h5file))
+                self.func=self.unity
+            
+    def __str__(self):
+        out='Grism Flat Field\n'
+        out+='file: {}\n'.format(self.h5file)
+        out+='func: {}\n'.format(self.func)
+        return out                    
+        
+    def __call__(self,x,y,l,d):
+        return self.func(x,y,l,d)
 
-                if self.flattype=='polynomial':
-                    self.wmin=h5Attr(d,'wmin')
-                    self.wmax=h5attr(d,'wmax')
-                    self.func=self._polynomial
-                else:
-                    self.func=self._unity
-                    
-                # read the coefficients
-                self.coefs=[d[str(i)][:] for i in range(d.attrs['order']+1)]
-                
-    def __call__(self,x,y,l):
-        assert x.shape == y.shape
-        assert l.shape == x.shape
-        return self.func(x,y,l)
+    def unity(self,x,y,l,d):
+        return np.ones_like(l,dtype=np.float)
 
-    def _unity(self,x,y,l):
-        return np.ones_like(l)
+    def polynomial(self,x,y,l,d):
+        
+        ll=(np.array(l)-self.wmin)/(self.wmax-self.wmin)
+        ff=np.zeros_like(x,dtype=np.float)
+        
+        for i,c in enumerate(self.detectors[d]):
+            ff+=(c[y,x]*np.power(ll,i))
 
-    def _polynomial(self,x,y,l):
-        ll=(l-self.wmin)/(self.wmax-self.wmin)
-        ff=np.zeros_like(l)
-        for i,coef in enumerate(self.coefs):
-            ff+=(coef[y,x]*ll**i)
         return ff
 
-    def __str__(self):
-        out='Grism Flat-Field:\n'
-        out+='{:>12} {}\n'.format('file',self.h5file)
-        out+='{:>12} {}\n'.format('detector',self.detector)
-        out+='{:>12} {}\n'.format('type',self.flattype)
-        return out
+
+#if __name__=='__main__':
+#    path='/Users/rryan/Python/Russell-Ryan/h5axeconfig/data/'
+#    ff=FlatField(path+'hst_wfc3_ir_flat.h5')
+#    
+#    
+#    x=[1,2,3]
+#    y=[4,5,6]
+#    l=[8000.,9000.,10000.]
+#    print(ff(x,y,l,'IR'))
 
 
-                
-if __name__=='__main__':
-    f='/Users/rryan/LINEAR/config/HST/WFC3/IR/G102/hst_wfc3_ir_flat.h5'
-
-    q=GrismFF(f,'IR')
-    print(q)
-    print(q(np.array(1).astype(int),np.array(2).astype(int),np.array(10000.)))
+    
+    

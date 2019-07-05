@@ -9,4 +9,5 @@ __credits__='Russell Ryan'
 
 
 from .grism import Camera
+from .grism import FlatField
 from .siaf import SIAF

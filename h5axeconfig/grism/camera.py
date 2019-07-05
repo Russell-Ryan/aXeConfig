@@ -9,12 +9,6 @@ from ..utils import h5Attr,resolveFile
 class Camera(object):
     
     def __init__(self,conffile,grism,detectors=None,beams=None,path=None):
-        # this is hard-coded w.r.t. h5axeconfig
-        #if path is None:
-        #    path,FILE=os.path.split(__file__)
-        #    path=os.path.join(path,'..','..','data')
-        #fullfile=os.path.join(path,conffile)
-
         self.conffile=conffile
         fullfile=resolveFile(self.conffile,path=path)
 
@@ -32,14 +26,16 @@ class Camera(object):
             
             if detectors is None:
                 for detname in h5:
-                    self.detectors[detname]=Detector(h5[detname],grism,beams=beams)
+                    self.detectors[detname]=Detector(h5[detname],grism,\
+                                                     beams=beams)
             else:
                 if not isinstance(detectors,(list,tuple)):
                     detectors=[detectors]
                     
                 for detname in detectors:
                     try:
-                        self.detectors[detname]=Detector(h5[detname],grism,beams=beams)
+                        self.detectors[detname]=Detector(h5[detname],grism,\
+                                                         beams=beams)
                     except:
                         raise KeyError("Detector {} not found.".format(detname))
 

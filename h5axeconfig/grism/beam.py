@@ -24,7 +24,7 @@ class Beam(Base):
         self.sensitivity=Sensitivity(h5)
         
         # build the clipper
-        self.polyclip=clip #polyclip.Polyclip(self.naxis)
+        self.polyclip=clip
 
         # record this
         self.naxis=self.polyclip.naxis

@@ -31,6 +31,9 @@ class Detector(object):
         # read the grism
         try:
             h5g=h5[grism]
+            self.lamb0=h5Attr(h5g,'lamb0')
+            self.lamb1=h5Attr(h5g,'lamb1')
+            self.dlamb=h5Attr(h5g,'dlamb')
         except:
             raise KeyError("Grism {} not found.".format(grism))
 
