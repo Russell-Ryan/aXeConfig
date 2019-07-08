@@ -11,9 +11,9 @@ class Trace(Base):
     def __init__(self,h5):
         Base.__init__(self,h5)
 
-        self.xoff=Poly1d(h5,'xoff')#conf,'xoff',beam)
-        self.yoff=Poly1d(h5,'yoff')#conf,'yoff',beam)
-        self.dydx=Poly1d(h5,'trace')#conf,'dydx',beam)    
+        self.xoff=Poly1d(h5,'xoff')
+        self.yoff=Poly1d(h5,'yoff')
+        self.dydx=Poly1d(h5,'trace')
 
     def slope(self,x0,y0):
         return self.dydx(x0,y0,order=1)

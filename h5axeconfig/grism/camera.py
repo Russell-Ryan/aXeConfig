@@ -79,8 +79,17 @@ class Camera(object):
     
     def __contains__(self,detector):
         return detector in self.detectors
-        
 
+    @property
+    def beams(self):
+        beams=[]
+        for name,det in self:
+            beams=[b for b,c in det]
+
+            
+        out=sorted(set(beams),key=beams.index)
+        return out
+            
     def __getitem__(self,detector):
         return self.detectors[detector]
         #print(detector)

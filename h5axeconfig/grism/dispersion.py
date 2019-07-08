@@ -17,11 +17,12 @@ class Dispersion(Base):
         
         dldp=self.dldp(x0,y0)
 
+        
         if self.dldp.order==1:
             # first order dispersion can be analyticall inverted
             b=dldp[1]
             m=dldp[0]
-
+                        
             s=(l[:,None]-b)/m
         else:
             # higher order dispersions must be numerically inverted

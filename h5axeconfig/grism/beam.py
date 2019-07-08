@@ -40,12 +40,17 @@ class Beam(Base):
         
         # convert from (x0,y0) & lamb to (xg,yg,lamb) triplets
         xg,yg=self.xyd2xyg(xd,yd,lamb)
+
+        #print("beamconf> put in pix frac here")
+        #print(np.amin(xg),np.amax(xg))
+        #print(np.amin(yg),np.amax(yg))
+        
         
         # clip against the edge
         xg=np.clip(xg,0,self.naxis[0])
         yg=np.clip(yg,0,self.naxis[1])
 
-        
+                
         
         # run the polygon clipper
         x,y,area,indices=self.polyclip(xg,yg)
@@ -70,11 +75,12 @@ class Beam(Base):
         return xyg,lam,val
             
     def wavelengths(self,x,y,nsub):
-        disp=self.dispersion(x,y)/nsub
+        disp=np.abs(self.dispersion(x,y))/nsub
         delta=self.sensitivity.wmax-self.sensitivity.wmin
+        
         nwave=int(delta/disp)+2
         dwave=delta/(nwave-1.)
-
+        
         wave=np.arange(nwave)*dwave+self.sensitivity.wmin
         return wave
         
@@ -85,8 +91,6 @@ class Beam(Base):
             a collection of (x,y) pairs on a grism image at a collection of 
             wavelengths '''
 
-
-        
         # compute the arclength from the dispersion model
         s=self.dispersion.arclength(lamb,xd,yd)
 

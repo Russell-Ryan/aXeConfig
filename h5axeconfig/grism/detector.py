@@ -9,7 +9,7 @@ from .beam import Beam
 from ..utils import h5Attr
 
 class Detector(object):
-    def __init__(self,h5,grism,beams=None):
+    def __init__(self,h5,grism,beams='all'):
 
         # get the name of the detector
         self.detector=h5.name[1:]
@@ -41,23 +41,34 @@ class Detector(object):
         
         # read the beams
         self.beams={}
-        if beams is None:
-            for beamname in h5g:
-                self.beams[beamname]=Beam(h5g[beamname],self.clip)
-        else:
-            if not isinstance(beams,(list,tuple)):
-                if beams =='':
-                    return
+        if beams is not None:
+            if beams == 'all':
+                for bm in h5g:
+                    self.beams[bm]=Beam(h5g[bm],self.clip)
+            else:
+                if np.isscalar(beams):
+                    self.beams[beams]=Beam(h5g[beams],self.clip)
                 else:
-                    beams=[beams]
-            for beamname in beams:
-                try:
-                    self.beams[beamname]=Beam(h5g[beamname],self.clip)
-                except:
-                    raise KeyError("Beam {} not found.".format(beamname))
+                    for bm in beams:
+                        self.beams[bm]=Beam(h5g[bm],self.clip) 
+
+        #if beams is None:
+        #    for beamname in h5g:
+        #        self.beams[beamname]=Beam(h5g[beamname],self.clip)
+        #else:
+        #    if not isinstance(beams,(list,tuple)):
+        #        if beams =='':
+        #            return
+        #        else:
+        #            beams=[beams]
+        #    for beamname in beams:
+        #        try:
+        #            self.beams[beamname]=Beam(h5g[beamname],self.clip)
+        #        except:
+        #            raise KeyError("Beam {} not found.".format(beamname))
                 
-        if not self.beams:
-            raise RuntimeError("No valid beams found in camera")
+        #if not self.beams:
+        #    raise RuntimeError("No valid beams found in camera")
 
     def _fitsExtension(self,data):
         if isinstance(data,np.ndarray):
