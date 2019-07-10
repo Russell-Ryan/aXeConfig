@@ -36,7 +36,6 @@ class Beam(Base):
         
     def specDrizzle(self,xd,yd,lamb):
         ''' run the polyclip to get the fractional pixel areas '''
-
         
         # convert from (x0,y0) & lamb to (xg,yg,lamb) triplets
         xg,yg=self.xyd2xyg(xd,yd,lamb)

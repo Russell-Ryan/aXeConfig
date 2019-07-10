@@ -8,7 +8,7 @@ from ..utils import h5Attr,resolveFile
 
 class Camera(object):
     
-    def __init__(self,conffile,grism,detectors=None,beams=None,path=None):
+    def __init__(self,conffile,grism,detectors=None,beams='all',path=None):
         self.conffile=conffile
         fullfile=resolveFile(self.conffile,path=path)
 
@@ -49,7 +49,7 @@ class Camera(object):
         out='Grism Camera calibration:\n'
         for x in ['telescope','instrument','camera','grism']:
             out=out+'{:>12}: {}'.format(x,getattr(self,x))+'\n'
-        #out=out+"{:>12}: {}".format('detectors',len(self))+'\n'
+
         label='detectors:'
         for detname,det in self.detectors.items():
             for beamname,beam in det:
