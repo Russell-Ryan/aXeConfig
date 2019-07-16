@@ -9,17 +9,20 @@ from ..utils import h5Attr
 class SIP(object):
     def __init__(self,h5,name):
         self.name=name
-        self.order=h5Attr(h5[name],'order')
-        self.data=np.array(h5[name])
-
+        self.valid=name in h5
+        if self.valid:
+            self.order=h5Attr(h5[name],'order')
+            self.data=np.array(h5[name])
+            
+            
     def updateHeader(self,hdr):
         ''' update the fits header with the SIP data '''
         new=hdr.copy()
-
-        new['{}_ORDER'.format(self.name)]=(self.order,'polynomial order')
-
-        for (i,j,v) in self.data:
-            new['{}_{}_{}'.format(self.name,i,j)]=v
+        if self.valid:        
+            new['{}_ORDER'.format(self.name)]=(self.order,'polynomial order')
+            
+            for (i,j,v) in self.data:
+                new['{}_{}_{}'.format(self.name,i,j)]=v
         
         return new
 
@@ -48,6 +51,10 @@ class Detector(object):
         self.naxis=h5Attr(h5,'naxis')
         self.a=SIP(h5,'A')
         self.b=SIP(h5,'B')
+        self.ap=SIP(h5,'AP')
+        self.bp=SIP(h5,'BP')
+        
+
         
         
         
@@ -92,13 +99,15 @@ class Detector(object):
         hdr['CTYPE1']=(self.ctype[0],'the coordinate type for the first axis')
         hdr['CTYPE2']=(self.ctype[1],'the coordinate type for the second axis')
         hdr['EQUINOX']=(self.equinox,'equinox of coordinates')
-        hdr['LATPOLE']=(self.latpole,'')
-        hdr['LONGPOLE']=(self.longpole,'')
+        hdr['LATPOLE']=(self.latpole,' ')
+        hdr['LONGPOLE']=(self.longpole,' ')
         hdr['ORIENTAT']=(-orientat,'position angle of image y axis (deg. e of n)')
-        
+
+        # put on SIP
         hdr=self.a.updateHeader(hdr)
         hdr=self.b.updateHeader(hdr)
-        
+        hdr=self.ap.updateHeader(hdr)
+        hdr=self.bp.updateHeader(hdr)
         
         return hdr
 
