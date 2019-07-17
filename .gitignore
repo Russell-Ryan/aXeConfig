@@ -2,5 +2,6 @@
 *.py~
 .gitignore~
 __pycache__/
+dist/
 build/
 h5axeconfig.egg-info/
