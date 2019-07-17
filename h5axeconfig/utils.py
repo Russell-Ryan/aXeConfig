@@ -7,7 +7,7 @@ def resolveFile(filename,path=None):
     ''' get a filename to a config file based the hardcoded path '''
     if path is None:
         path,theFile=os.path.split(__file__)
-        path=os.path.join(path,'..','data')
+        path=os.path.join(path,'data')
 
     fullfile=os.path.join(path,filename)
     return fullfile

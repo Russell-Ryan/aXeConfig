@@ -1,18 +1,33 @@
-#from distutils.core import setup, Extension
 from setuptools import setup,find_packages
-
-#import numpy.distutils.misc_util
 import os
-import glob
-
+import shutil
+import urllib.request
 import h5axeconfig.__init__ as info
 
+try:
+    import wget
+except:
+    print('Must install wget:\npip install wget')
+    exit()
 
-# conf dir
-confdir='data'
 
-# get the configuration files
-conffiles=glob.glob(os.path.join(confdir,'*.h5'))
+# the data dir 
+datadir='data'
+
+print("You will need to download the HDF5 files made by Russell Ryan")
+print("Do you want the setup.py to download these files? [y]/n")
+q=input()
+if (q=='y') | (q=='Y') | (q=='') :
+    rooturl='http://www.stsci.edu/~rryan/pyLINEAR/calibrations/'
+    with urllib.request.urlopen(rooturl+'all.txt') as www:
+        for line in www:
+            name=line.strip().decode('utf-8')
+            base=os.path.basename(name)
+            if not os.path.isfile(os.path.join(datadir,base)):
+                print("Downloading: {}\n".format(base))
+                thisFile=wget.download(rooturl+name)
+                os.rename(thisFile,datadir)
+                
 
 # call setup
 setup(name='h5axeconfig',\
@@ -22,13 +37,13 @@ setup(name='h5axeconfig',\
       keywords='grism aXe python hdf5',\
       description='Python API for working with grism configuration in aXe format written as HDF5',\
       license='MIT',
-      install_requires=['h5py','astropy','numpy','polyclip'],
-      classifiers=['Development Status :: 1 Planning',\
+      install_requires=['h5py','wget','astropy','numpy','polyclip'],
+      classifiers=['Development Status :: 5 Production/Stable',\
                    'Intended Audience :: Science/Research',
                    'Topic :: Scientific/Engineering :: Astronomy',],\
-      packages=find_packages())
-      #package_dir={'axeconfig':'axeconfig'},
-      #qpackage_data={confdir:conffiles})
+      packages=find_packages(),\
+      package_data={'h5axeconfig':[os.path.join(datadir,'*.h5')]})
+
       
 
       
