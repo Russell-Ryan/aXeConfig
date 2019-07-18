@@ -12,7 +12,9 @@ except:
 
 
 # the data dir 
-datadir='data'
+datadir='h5axeconfig/data'
+if not os.path.isdir(datadir):
+  os.mkdir(datadir)
 
 print("You will need to download the HDF5 files made by Russell Ryan")
 print("Do you want the setup.py to download these files? [y]/n")
@@ -26,8 +28,8 @@ if (q=='y') | (q=='Y') | (q=='') :
             if not os.path.isfile(os.path.join(datadir,base)):
                 print("Downloading: {}\n".format(base))
                 thisFile=wget.download(rooturl+name)
-                os.rename(thisFile,datadir)
-                
+                #os.rename(thisFile,datadir)
+                shutil.move(thisFile,os.path.join(datadir,thisFile))
 
 # call setup
 setup(name='h5axeconfig',\
@@ -42,7 +44,8 @@ setup(name='h5axeconfig',\
                    'Intended Audience :: Science/Research',
                    'Topic :: Scientific/Engineering :: Astronomy',],\
       packages=find_packages(),\
-      package_data={'h5axeconfig':[os.path.join(datadir,'*.h5')]})
+      package_dir={'h5axeconfig': 'h5axeconfig'},\
+      package_data={'h5axeconfig':['data/*.h5']})
 
       
 
