@@ -9,8 +9,8 @@ from .beam import Beam
 from ..utils import h5Attr
 
 class Detector(object):
-    def __init__(self,h5,grism,beams='all'):
-
+    def __init__(self,h5,beams='all'):
+        
         # get the name of the detector
         self.detector=h5.name[1:]
 
@@ -29,13 +29,13 @@ class Detector(object):
         self.clip=polyclip.Polyclip(self.naxis)
 
         # read the grism
-        try:
-            h5g=h5[grism]
-            self.lamb0=h5Attr(h5g,'lamb0')
-            self.lamb1=h5Attr(h5g,'lamb1')
-            self.dlamb=h5Attr(h5g,'dlamb')
-        except:
-            raise KeyError("Grism {} not found.".format(grism))
+        #try:
+        #h5g=h5[grism]
+            #self.lamb0=h5Attr(h5g,'lamb0')
+            #self.lamb1=h5Attr(h5g,'lamb1')
+            #self.dlamb=h5Attr(h5g,'dlamb')
+        #except:
+        #    raise KeyError("Grism {} not found.".format(grism))
 
 
         
@@ -43,14 +43,14 @@ class Detector(object):
         self.beams={}
         if beams is not None:
             if beams == 'all':
-                for bm in h5g:
-                    self.beams[bm]=Beam(h5g[bm],self.clip)
+                for bm in h5:
+                    self.beams[bm]=Beam(h5[bm],self.clip)
             else:
                 if np.isscalar(beams):
-                    self.beams[beams]=Beam(h5g[beams],self.clip)
+                    self.beams[beams]=Beam(h5[beams],self.clip)
                 else:
                     for bm in beams:
-                        self.beams[bm]=Beam(h5g[bm],self.clip) 
+                        self.beams[bm]=Beam(h5[bm],self.clip) 
 
         #if beams is None:
         #    for beamname in h5g:

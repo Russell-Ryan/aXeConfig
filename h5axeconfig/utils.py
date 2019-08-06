@@ -19,9 +19,10 @@ def detectorData(filename,*args):
     
     det={}
     with h5py.File(fullfile,'r') as h5:
-        for detname,h5d in h5.items():
+        h5g=list(h5.values())[0]   # just check the first grism 
+        for detname,h5d in h5g.items():
             det[detname]=tuple(h5Attr(h5d,arg) for arg in args)
-        #ext=[h5Attr(h5g,arg) for arg in args for d,h5g in h5.items()]
+
     return det
 
 

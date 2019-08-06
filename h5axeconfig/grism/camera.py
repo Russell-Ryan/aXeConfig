@@ -11,7 +11,7 @@ class Camera(object):
     def __init__(self,conffile,grism,detectors=None,beams='all',path=None):
         self.conffile=conffile
         fullfile=resolveFile(self.conffile,path=path)
-
+        
         with h5py.File(fullfile,'r') as h5:
             self.telescope=h5Attr(h5,'telescope')
             self.instrument=h5Attr(h5,'instrument')
@@ -19,23 +19,24 @@ class Camera(object):
             self.grism=grism
             self.bandpass=None
 
-
+            h5g=h5[self.grism.upper()]
+            self.lamb0=h5Attr(h5g,'lamb0')
+            self.lamb1=h5Attr(h5g,'lamb1')
+            self.dlamb=h5Attr(h5g,'dlamb')
+            
             # read the detectors
             self.detectors={}
 
-            
             if detectors is None:
-                for detname in h5:
-                    self.detectors[detname]=Detector(h5[detname],grism,\
-                                                     beams=beams)
+                for detname in h5g:
+                    self.detectors[detname]=Detector(h5g[detname],beams=beams)
             else:
                 if not isinstance(detectors,(list,tuple)):
                     detectors=[detectors]
                     
                 for detname in detectors:
                     try:
-                        self.detectors[detname]=Detector(h5[detname],grism,\
-                                                         beams=beams)
+                        self.detectors[detname]=Detector(h5g[detname],beams=beams)
                     except:
                         raise KeyError("Detector {} not found.".format(detname))
 
