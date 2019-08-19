@@ -39,7 +39,7 @@ class FlatField(object):
                         #data=[group[str(i)][:] for i in range(self.order+1)]
                         #self.detectors[detname]=np.array(data)
             except:
-                print("unable to load HDF5 flat field {}".format(self.h5file))
+                print("[warn]unable to load HDF5 flat field {}".format(self.h5file))
                 self.func=self.unity
             
     def __str__(self):

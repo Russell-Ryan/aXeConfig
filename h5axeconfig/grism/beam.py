@@ -18,6 +18,7 @@ class Beam(Base):
         # the dispersion order
         self.order=h5Attr(h5,'order')
 
+        
         # load the beam primatives
         self.trace=Trace(h5)
         self.dispersion=Dispersion(h5)
