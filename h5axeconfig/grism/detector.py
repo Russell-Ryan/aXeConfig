@@ -25,6 +25,8 @@ class Detector(object):
         self.xr=h5Attr(h5,'xrange')
         self.yr=h5Attr(h5,'yrange')
         
+
+        
         # define a polygon clipper
         self.clip=polyclip.Polyclip(self.naxis)
 
@@ -44,13 +46,15 @@ class Detector(object):
         if beams is not None:
             if beams == 'all':
                 for bm in h5:
-                    self.beams[bm]=Beam(h5[bm],self.clip)
+                    self.beams[bm]=Beam(h5[bm],self.clip,xr=self.xr,yr=self.yr)
             else:
                 if np.isscalar(beams):
-                    self.beams[beams]=Beam(h5[beams],self.clip)
+                    self.beams[beams]=Beam(h5[beams],self.clip,xr=self.xr,\
+                                           yr=self.yr)
                 else:
                     for bm in beams:
-                        self.beams[bm]=Beam(h5[bm],self.clip) 
+                        self.beams[bm]=Beam(h5[bm],self.clip,xr=self.xr,\
+                                            yr=self.yr) 
 
         #if beams is None:
         #    for beamname in h5g:
