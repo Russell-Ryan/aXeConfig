@@ -66,7 +66,8 @@ class Beam(Base):
         # convert from (x0,y0) & lamb to (xg,yg,lamb) triplets
         xg,yg=self.xyd2xyg(xd,yd,lamb)
 
-        print('[debug]Put pixfrac here')
+
+        # could put pixfrac here
         
         # clip against the edge
         xg=np.clip(xg,0,self.naxis[0])
