@@ -4,7 +4,17 @@ A python API for implementing aXe-style calibration and common grism functions.
 
 ## Installation
 
+1. h5axeconfig has three key dependencies that must be resolved first: [h5py](https://pypi.org/project/h5py/), [ruamel](https://pypi.org/project/ruamel.yaml/), and [wget](https://pypi.org/project/wget/).
+
+```
+pip install h5py
+pip install wget
+pip install ruamel.yaml
+```
+2. Now you can install h5axeconfig using the standard:
+```
 python setup.py install
+```
 
 ## Calibration Files
 
@@ -13,9 +23,7 @@ To facilitate cameras with multiple detectors (such as WFC3/UVIS with its two CC
 * [WFC3-IR](http://www.stsci.edu/~rryan/pyLINEAR/calibrations/WFC3-IR/)
 * [WFC3-UVIS](http://www.stsci.edu/~rryan/pyLINEAR/calibrations/WFC3-UVIS/)
 
-
-
-**Therefore, this package requires the h5py library.**
+** These files will be downloaded automatically by the setup.py step above. **
 
 ## Example Usage
 
