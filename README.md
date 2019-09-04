@@ -23,7 +23,7 @@ To facilitate cameras with multiple detectors (such as WFC3/UVIS with its two CC
 * [WFC3-IR](http://www.stsci.edu/~rryan/pyLINEAR/calibrations/WFC3-IR/)
 * [WFC3-UVIS](http://www.stsci.edu/~rryan/pyLINEAR/calibrations/WFC3-UVIS/)
 
-** These files will be downloaded automatically by the setup.py step above. **
+**These files will be downloaded automatically by the setup.py step above.**
 
 ## Example Usage
 
