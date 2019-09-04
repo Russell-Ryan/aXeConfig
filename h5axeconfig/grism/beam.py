@@ -36,7 +36,7 @@ class Beam(Base):
         return msg.format(self.beam,self.order)
 
         
-    def specDrizzle(self,xd,yd,lamb,ignore='minmax'):
+    def specDrizzle(self,xd,yd,lamb,ignore='average'):
         ''' run the polyclip to get the fractional pixel areas '''
 
         # output data products
