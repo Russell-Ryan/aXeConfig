@@ -1,12 +1,18 @@
 from setuptools import setup,find_packages
 import os
 import shutil
+import sys
 import urllib.request
-import wget
+
+try:
+    import wget
+except ImportError:
+    print("Please 'pip install wget'", file=sys.stderr)
+    exit(1)
 
 
 # the data dir
-datadir=os.path.join('h5axeconfig','data')
+datadir=os.path.join('h5axeconfig', 'data')
 if not os.path.isdir(datadir):
     os.mkdir(datadir)
 
