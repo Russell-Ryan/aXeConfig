@@ -4,16 +4,14 @@ A python API for implementing aXe-style calibration and common grism functions.
 
 ## Installation
 
-1. h5axeconfig has three key dependencies that must be resolved first: [h5py](https://pypi.org/project/h5py/), [ruamel](https://pypi.org/project/ruamel.yaml/), and [wget](https://pypi.org/project/wget/).
+1. Now you can install h5axeconfig using the standard:
+```
+pip install .
+```
+## Development
 
 ```
-pip install h5py
-pip install wget
-pip install ruamel.yaml
-```
-2. Now you can install h5axeconfig using the standard:
-```
-python setup.py install
+pip install -e .
 ```
 
 ## Calibration Files
