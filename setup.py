@@ -6,7 +6,7 @@ import wget
 
 
 # the data dir
-datadir='h5axeconfig/data'
+datadir=os.path.join('h5axeconfig','data')
 if not os.path.isdir(datadir):
     os.mkdir(datadir)
 
