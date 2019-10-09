@@ -1,5 +1,6 @@
 import numpy as np
 import os
+import pdb
 
 from .base import Base
 from .trace import Trace
@@ -35,8 +36,19 @@ class Beam(Base):
         msg='Grism beam object:\n(beam,order)=({},{})'
         return msg.format(self.beam,self.order)
 
+
+    def applyPixfrac(self,xd,yd,pixfrac):
+
+        # force pixfrac to be in range
+        #pixfrac=max(min(pixfrac,1.),0.01)
+        p=np.sqrt(pixfrac)
         
-    def specDrizzle(self,xd,yd,lamb,ignore='average'):
+        x=p*xd+(1.-p)*np.mean(xd)
+        y=p*yd+(1.-p)*np.mean(yd)
+
+        return x,y
+        
+    def specDrizzle(self,xd,yd,lamb,ignore='average',pixfrac=1.):
         ''' run the polyclip to get the fractional pixel areas '''
 
         # output data products
@@ -62,12 +74,11 @@ class Beam(Base):
                 return xyg,lam,val
         else:
             pass
-        
+
+        #xd,yd=self.applyPixfrac(xd,yd,pixfrac)
+
         # convert from (x0,y0) & lamb to (xg,yg,lamb) triplets
         xg,yg=self.xyd2xyg(xd,yd,lamb)
-
-
-        # could put pixfrac here
         
         # clip against the edge
         xg=np.clip(xg,0,self.naxis[0])

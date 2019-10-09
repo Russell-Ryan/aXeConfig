@@ -1,5 +1,6 @@
 import h5axeconfig
 import numpy as np
+import pdb
 
 # set the inputs
 beamfile='hst_wfc3_ir_beams.h5'
@@ -28,7 +29,7 @@ for detname,detconf in conf:
 
         
         # instead, let's drizzle the pixels
-        xyg,lam,val=beamconf.specDrizzle(xd,yd,l)
+        xyg,lam,val=beamconf.specDrizzle(xd,yd,l,pixfrac=0.1)
 
         # xyg = 1d pixel index
         # lam = indices of l
@@ -40,7 +41,9 @@ for detname,detconf in conf:
             # decompose the xyg (1d pixel index) into x,y pairs
             y,x=np.divmod(xyg,nx)
 
-
+            print(len(x),len(l))
+            print(x)
+            pdb.set_trace()
 
 
 
