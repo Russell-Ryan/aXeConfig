@@ -17,10 +17,6 @@ class Poly2d(object):
 
             
                 
-        #self.npar=len(self.coefs)
-        #self._order=self.npar-1
-        
-
     @property
     def order(self):
         return self.npar-1
@@ -42,9 +38,8 @@ class Poly2d(object):
         #j=list(j)
         #v=list(self.coefs.values())
 
+        p=0. if np.isscalar(x) else np.zeros_like(x,dtype=float)
 
-        
-        p=np.zeros_like(x)
         for (i,j),v in self.coefs.items():
             p+=(v*x**i*y**j)
                        
