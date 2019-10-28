@@ -12,28 +12,6 @@ class Sensitivity(Base):
         self.wavelength=hf['wavelength']
         self.sensitivity=hf['sensitivity']
         self.error=hf['error']
-        
-        # read the sensitivity
-        #sensfile=conf['SENSITIVITY_'+self.beam.upper()]
-        #self.sensfile=os.path.join(os.path.dirname(conf.filename),sensfile)
-
-
-        #with fits.open(self.sensfile) as hdulist:
-        #    sens=hdulist[1].data
-            
-        #hdulist=fits.open(self.sensfile)
-        #self.sens=hdulist[1].data
-        #hdulist.close()
-
-
-        #self.sensitivity=sens['SENSITIVITY']
-        #self.error=sens['ERROR']
-        #self.wavelength=sens['WAVELENGTH']
-
-        
-        #self.sens['SENSITIVITY']=self.sens['SENSITIVITY']#*self.sensunit
-        #self.sens['ERROR']=self.sens['ERROR']#*self.sensunit
-        #wave=self.sens['WAVELENGTH']        
 
         # compute the range
         g=np.where(self.sensitivity != 0.)
@@ -53,3 +31,9 @@ class Sensitivity(Base):
 
     def __rmul__(self,a):
         return self.__mul__(a)
+
+
+    
+    @property
+    def average(self):
+        return np.average(self.sensitivity)
