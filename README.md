@@ -1,5 +1,7 @@
 # h5axeconfig
 
+[![Build Status](https://travis-ci.org/Russell-Ryan/h5axeconfig.svg?branch=master)](https://travis-ci.org/Russell-Ryan/h5axeconfig)
+
 A python API for implementing aXe-style calibration and common grism functions.
 
 ## Installation
