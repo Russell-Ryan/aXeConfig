@@ -1,3 +1,8 @@
+'''
+The beam class, which contains the trace, dispersion, and sensitivity.
+
+'''
+
 import numpy as np
 import os
 import pdb
@@ -13,6 +18,23 @@ class Beam(Base):
     __INT__=np.uint64
     
     def __init__(self,h5,clip,xr=[-np.inf,np.inf],yr=[-np.inf,np.inf]):
+        ''' Read the aXe-like configuration data from an h5 file.
+
+        Parameters
+        ----------
+        h5 : h5-like dict
+           h5-like dictionary from which to get the beam info
+
+        clip : polyclip
+           polyclipping module from R. Ryan library
+
+        xr,yr : np.array([2])
+           array to specify the max range for this beam to disperse onto 
+           a detector.  DEFAULT = [-inf,inf]
+
+        '''
+        
+
         Base.__init__(self,h5)
         
         # the dispersion order
@@ -33,11 +55,27 @@ class Beam(Base):
 
         
     def __str__(self):
+        ''' Overload the pring function. '''
+        
         msg='Grism beam object:\n(beam,order)=({},{})'
         return msg.format(self.beam,self.order)
 
 
     def applyPixfrac(self,xd,yd,pixfrac):
+        ''' Shrink a pixel by pixfrac.
+
+        Paramters
+        ---------
+        xd,yd : np.array
+           array of x-coordinates
+        pixfrac : float
+           amount by which to shrink the area of a pixel
+
+        Returns
+        -------
+        x,y : np.array
+           array of output x-coordinates.  same shape as xd
+        '''
 
         # force pixfrac to be in range
         #pixfrac=max(min(pixfrac,1.),0.01)
@@ -75,6 +113,7 @@ class Beam(Base):
         else:
             pass
 
+        # shrink the pixel according to the pixfrac
         #xd,yd=self.applyPixfrac(xd,yd,pixfrac)
 
         # convert from (x0,y0) & lamb to (xg,yg,lamb) triplets
@@ -101,6 +140,23 @@ class Beam(Base):
         return xyg,lam,val
             
     def wavelengths(self,x,y,nsub):
+        ''' Compute the wavelengths given a coordinate and subsampling
+
+        Parameters
+        ----------
+        x,y : float
+            coordinate pair
+
+        nsub : int
+            subsampling intervals.  Should be positive.
+        
+        Returns
+        -------
+        wave : np.array
+            wavelengths from min/max range of the sensitivity curve sampled
+            at the native dispersion divided by the `nsub` frequency.
+        '''
+
         disp=np.abs(self.dispersion(x,y))/nsub
         delta=self.sensitivity.wmax-self.sensitivity.wmin
         

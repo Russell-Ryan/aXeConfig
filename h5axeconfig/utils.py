@@ -4,7 +4,23 @@ import os
 
 
 def resolveFile(filename,path=None):
-    ''' get a filename to a config file based the hardcoded path '''
+    ''' get a filename to a config file based the hardcoded path 
+
+    Parameters
+    ----------
+    filename : str
+        filename to the h5 reference file
+
+    path : str
+        relative path to the h5 file.  default is './'
+    
+    Returns
+    -------
+    fullfile : str
+         fully resolved path
+    
+    '''
+        
     if path is None:
         path,theFile=os.path.split(__file__)
         path=os.path.join(path,'data')
@@ -15,6 +31,21 @@ def resolveFile(filename,path=None):
 
 
 def detectorData(filename,*args):
+    ''' get the detector data
+
+    This reads the groups in the h5 file (e.g. detector name) and 
+    returns the data with that group.
+
+    Parameters
+    ----------
+    filename : str 
+        name of the h5 config file
+
+    *args : tuple
+        which items to read
+    '''
+
+
     fullfile=resolveFile(filename)
     
     det={}
@@ -27,7 +58,25 @@ def detectorData(filename,*args):
 
 
 def h5Attr(h5,key):
-    ''' Extract an attribute from the h5 and retype it '''
+    ''' Extract an attribute from the h5 and retype it 
+
+    Parameters
+    ----------
+
+    h5 : h5 dictionary
+        The dictionary from an open h5 file.
+
+    key : str
+        A string to parse out of the dictionary, this module will
+        retype strings.
+
+    Returns
+    -------
+    val : str, int, float, np.array
+        The datum associated with that keyword entry, the type is not 
+        known until the key is read.
+    '''
+    
     
     try:
         val=h5.attrs[key]
@@ -51,8 +100,19 @@ def h5Attr(h5,key):
 
 
 def vNewton(funct,deriv,x0,itmax=1000,tolerance=1e-3,**kwargs):
-        ''' Vectorized method to solve non-linear equations with 
-            Newton's method '''
+        """ Vectorized method to solve non-linear equations with 
+            Newton's method 
+
+        This method is deprecated, but works just fine. It solves
+        a set of non-linear equations using Newton's method, but where
+        the system fo equations is itself a vector.  For example
+        
+        y0 = a + b * x0 + c * x0^2
+        y1 = d + e * x1 + f * x1^2
+        
+        where (y0,y1) and (a,b,c,d,e,f) are known, and you want to find 
+        (x0,x1).
+        """
 
         # store the output and perturbations
         x=np.copy(x0)
