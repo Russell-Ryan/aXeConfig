@@ -82,8 +82,7 @@ class Detector(object):
         
         # compute CD matrix for a given rotation
         cd=np.dot(self.cd,self.rotmat(orientat))
-
-
+        
         # make the output header
         hdr=fits.Header()        
         hdr['NAXIS1']=(self.naxis[0],'number of pixels in x')

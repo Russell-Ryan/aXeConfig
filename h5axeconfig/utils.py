@@ -57,6 +57,24 @@ def detectorData(filename,*args):
     return det
 
 
+def h5Type(val):
+    if isinstance(val,np.bytes_):
+        val=val.decode('utf-8')
+        low=val.lower()
+        if low =='none':
+            val=None
+        elif low == 'true':
+            val=True
+        elif low == 'false':
+            val=False
+        else:
+            pass
+    elif isinstance(val,(list,tuple,np.ndarray)):
+        val=np.array([h5Type(v) for v in val])
+    else:
+        pass
+    return val
+        
 def h5Attr(h5,key):
     ''' Extract an attribute from the h5 and retype it 
 
@@ -79,20 +97,7 @@ def h5Attr(h5,key):
     
     
     try:
-        val=h5.attrs[key]
-        if isinstance(val,np.bytes_):
-            val=val.decode('utf-8')
-            low=val.lower()
-            if low =='none':
-                val=None
-            elif low == 'true':
-                val=True
-            elif low == 'false':
-                val=False
-            else:
-                pass
-        else:
-            pass
+        val=h5Type(h5.attrs[key])
     except:
         val=None
     return val
@@ -133,7 +138,7 @@ def vNewton(funct,deriv,x0,itmax=1000,tolerance=1e-3,**kwargs):
             g=np.where(np.abs(dx)>=tolerance)[0]
 
         if itn == itmax:
-            print("Warning> max iterations reached.")
+            print("[warn]max iterations reached.")
 
         return x,itn
 
