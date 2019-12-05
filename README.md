@@ -18,10 +18,13 @@ pip install -e .
 
 ## Calibration Files
 
-To facilitate cameras with multiple detectors (such as WFC3/UVIS with its two CCDs), I felt it necessary to extend the ascii-formatted calibration files to a more advanced format.  I choose the [hdf5](https://www.hdfgroup.org/solutions/hdf5/) format, and have provided a few of the common detectors that I have worked with.  Given the file size, I provide these on a [personal webpage](http://www.stsci.edu/~rryan/pyLINEAR/):
+To facilitate cameras with multiple detectors (such as WFC3/UVIS with its two CCDs), I felt it necessary to extend the ascii-formatted calibration files to a more advanced format.  I choose the [hdf5](https://www.hdfgroup.org/solutions/hdf5/) format, and have provided a few of the common detectors that I have worked with.  Given the file size, I provide these on a [personal webpage](http://www.stsci.edu/~rryan/pyLINEAR/calibrations/):
 
 * [WFC3-IR](http://www.stsci.edu/~rryan/pyLINEAR/calibrations/WFC3-IR/)
 * [WFC3-UVIS](http://www.stsci.edu/~rryan/pyLINEAR/calibrations/WFC3-UVIS/)
+* [WFIRST-WFI](http://www.stsci.edu/~rryan/pyLINEAR/calibrations/WFIRST-WFI/)
+
+
 
 **These files will be downloaded automatically by the setup.py step above.**
 
